@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import './App.css'
 
 function useLocalStorage(key, initialValue) {
@@ -42,12 +42,15 @@ function ContadorPersistente() {
 
 function ListaTareasPersistente() {
 
+  const inputRef = useRef(null);
   const [nuevoTexto, setNuevoTexto] = useState("");
-  const [listaTareas, setListaTareas] = useLocalStorage('listaTareas', [
+  const DATOS_INICIALES = [
     {id: 0, tarea: "primera tarea", completada: false},
     {id: 1, tarea: "segunda tarea", completada: false},
     {id: 2, tarea: "tercera tarea", completada: false}
-  ]);
+  ];
+
+  const [listaTareas, setListaTareas] = useLocalStorage('listaTareas', DATOS_INICIALES);
 
   const agregarTarea = () => {
     if (nuevoTexto === "") return; // Evitar agregar tareas vacías
@@ -60,11 +63,29 @@ function ListaTareasPersistente() {
     //Actualizar la lista 
     setListaTareas([...listaTareas, nuevaTarea]); // operador spread "..." funciona como un append
     setNuevoTexto("");
+    inputRef.current.focus(); // useRef para volver a escribir al hacer click en agregar.
+  };
+  
+  const restablecerTareas = () => {
+    setListaTareas(DATOS_INICIALES);
   };
 
   return (
     <div className="tarjeta-listaTareas">
       <h3>Lista de tareas:</h3>
+      
+      <input className="input-tareas"
+        ref={inputRef} 
+        value={nuevoTexto}                              
+        onChange={(e) => setNuevoTexto(e.target.value)} 
+        placeholder="Nueva tarea..." 
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            agregarTarea();
+          }
+        }}/>
+      <button onClick={agregarTarea}>Agregar</button>
+      <button onClick={restablecerTareas}>Restablecer</button>
       <div className="lista">
         {listaTareas.map((item) => (
           <div key={item.id} className="item-tarea">
@@ -74,11 +95,7 @@ function ListaTareasPersistente() {
         ))}
       </div>
 
-      <input className="input-tareas" 
-        value={nuevoTexto}                              
-        onChange={(e) => setNuevoTexto(e.target.value)} 
-        placeholder="Nueva tarea..." />
-      <button onClick={agregarTarea}>Agregar</button>
+      
     </div>
   ); 
 }
@@ -90,6 +107,9 @@ function App() {
       <h1>Tarea n° 5: Lista de tareas con Hooks</h1>
       <div className="componentes">
         <ListaTareasPersistente/>
+        {/* <ListaTareasPersistente/>
+        <ListaTareasPersistente/> */}
+
       </div>
     </>
   )
