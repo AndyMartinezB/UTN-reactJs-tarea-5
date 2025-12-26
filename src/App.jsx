@@ -66,6 +66,19 @@ function ListaTareasPersistente() {
     inputRef.current.focus(); // useRef para volver a escribir al hacer click en agregar.
   };
   
+  const toogleTarea = (id) => {
+    
+    const nuevaLista = listaTareas.map((tarea) => {
+    if (tarea.id === id) {
+      return { ...tarea, completada: !tarea.completada };
+    } else {
+      return tarea;
+    }
+  });
+
+  setListaTareas(nuevaLista);  
+  }
+
   const restablecerTareas = () => {
     setListaTareas(DATOS_INICIALES);
   };
@@ -87,12 +100,16 @@ function ListaTareasPersistente() {
       <button onClick={agregarTarea}>Agregar</button>
       <button onClick={restablecerTareas}>Restablecer</button>
       <div className="lista">
-        {listaTareas.map((item) => (
-          <div key={item.id} className="item-tarea">
-            {/* {CHECKBOX} */}
-            <span>{item.tarea}</span>
-          </div> 
-        ))}
+        <ol>
+          {listaTareas.map((item) => (
+            <li key={item.id} className="item-tarea">
+            
+              <input type="checkbox" checked={item.completada} onClick={() => toogleTarea(item.id)} />
+              <span>{item.tarea}</span>
+                
+            </li> 
+          ))} 
+        </ol> 
       </div>
 
       
