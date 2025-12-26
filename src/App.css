@@ -4,29 +4,32 @@
   padding: 2rem;
   text-align: center;
 }
+.componentes{
+  margin-top: 50px;
+  padding: 5px;
+  display:flex;
+  gap: 15px;
+  /* background-color: greenyellow; */
+}
 
-.tarjeta-contador{
+.tarjeta-tareas{
 
   border-radius: 8px;
   border: 1px solid transparent;
   padding: 30px;
   background-color:dimgrey;
+  width: 300px ;
   box-shadow: -1px 1px 0px 1px rgba(255,228,196,0.5);
 -webkit-box-shadow: -1px 1px 0px 1px rgba(255,228,196,0.5);
 -moz-box-shadow: -1px 1px 0px 1px rgba(255,228,196,0.5);
 }
-.texto-contador {
+.lista {
   border-radius: 8px;
   border: 1px solid transparent;
-  padding: 10px;
-  font-size: 1.3em;
+  padding: 20px;
+  font-size: 1.0em;
+  text-align: justify;
   font-weight: 500;
   font-family: inherit;
   background-color: #1a1a1a;
-}
-
-.botones-contador {
-
-  display: flex;    
-  gap: 15px;
 }

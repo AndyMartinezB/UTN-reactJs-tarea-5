@@ -39,12 +39,58 @@ function ContadorPersistente() {
   )
 }
 
+
+function ListaTareasPersistente() {
+
+  const [nuevoTexto, setNuevoTexto] = useState("");
+  const [listaTareas, setListaTareas] = useLocalStorage('listaTareas', [
+    {id: 0, tarea: "primera tarea", completada: false},
+    {id: 1, tarea: "segunda tarea", completada: false},
+    {id: 2, tarea: "tercera tarea", completada: false}
+  ]);
+
+  const agregarTarea = () => {
+    if (nuevoTexto === "") return; // Evitar agregar tareas vacías
+    
+    const nuevaTarea = {
+      id: Date.now(), // fecha como id.
+      tarea: nuevoTexto,
+      completada: false
+    };
+    //Actualizar la lista 
+    setListaTareas([...listaTareas, nuevaTarea]); // operador spread "..." funciona como un append
+    setNuevoTexto("");
+  };
+
+  return (
+    <div className="tarjeta-listaTareas">
+      <h3>Lista de tareas:</h3>
+      <div className="lista">
+        {listaTareas.map((item) => (
+          <div key={item.id} className="item-tarea">
+            {/* {CHECKBOX} */}
+            <span>{item.tarea}</span>
+          </div> 
+        ))}
+      </div>
+
+      <input className="input-tareas" 
+        value={nuevoTexto}                              
+        onChange={(e) => setNuevoTexto(e.target.value)} 
+        placeholder="Nueva tarea..." />
+      <button onClick={agregarTarea}>Agregar</button>
+    </div>
+  ); 
+}
+
 function App() {
   
   return (
     <>
-      <h2>Test</h2>
-      <ContadorPersistente/>
+      <h1>Tarea n° 5: Lista de tareas con Hooks</h1>
+      <div className="componentes">
+        <ListaTareasPersistente/>
+      </div>
     </>
   )
 }
